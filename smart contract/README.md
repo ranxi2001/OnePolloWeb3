@@ -12,7 +12,7 @@
   - 链接：https://cryptozombies.io/zh/solidity
 
 
-![](.\attachment\僵尸学solidity.png)
+![](..\smart contract\attachment\僵尸学solidity.png)
 
 - 然后开始实战，看**成信大** **[梁培利](https://space.bilibili.com/220951871/channel/series)** 的网课：
 
