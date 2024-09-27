@@ -6,6 +6,6 @@
 
 进入Web3的技术领域分为几个部分，一个是智能合约、一个是链上交互、还有一个是前端交互。
 
-![Web3技术map](./blob/master/attachment/Web3技术map.png)
+![Web3技术map](./attachment/Web3技术map.png)
 
 下面就分3个文件夹深入这三个领域进行学习了！
