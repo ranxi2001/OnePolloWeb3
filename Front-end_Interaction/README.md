@@ -2,9 +2,10 @@
 
 ## 前端框架
 
-Vite：单页面
+- Vite：单页面
 
-Nextjs：路由多页面
+- Nextjs：路由多页面
+  - [Learn Next.js 中文教程   (以一个发票单据项目的形式带你做前端)](https://qufei1993.github.io/nextjs-learn-cn)
 
 ## 前端训练营
 
