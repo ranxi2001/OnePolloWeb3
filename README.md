@@ -4,7 +4,7 @@
 
 之前也写了一些文档，也学了一些，用飞书写的，但是总得来说飞书这个软件验证登录比较麻烦不如本地仓库写起来舒服，只是说便于分享，但是`gitbook`倒是可以解决这个问题。
 
-进入Web3的技术领域分为几个部分，一个是 [智能合约](smart contract\README.md) 、一个是 [链上交互](chain interaction\README.md) 、还有一个是 [前端交互](Front-end Interaction\README.md) 。
+进入Web3的技术领域分为几个部分，一个是 [智能合约](./smart contract/README.md) 、一个是 [链上交互](./chain interaction/README.md) 、还有一个是 [前端交互](./Front-end Interaction/README.md) 。
 
 ![Web3技术map](./attachment/Web3技术map.png)
 
