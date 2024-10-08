@@ -33,6 +33,8 @@
   
     - [DApp设计与开发 课程笔记（六）：NFT交易市场后端开发 - 孤飞 - 博客园 (cnblogs.com)](https://www.cnblogs.com/ranxi169/p/18280658)
 
+- 实战需要先学会Hardhat，我写了一篇教程笔记： [Hardhat教程.md](./Hardhat教程.md) 
+
 ## 圆满：
 
 - 用代码例子来学Solidity：https://github.com/Web3-Club/solidity-by-example_Chinese?tab=readme-ov-file
