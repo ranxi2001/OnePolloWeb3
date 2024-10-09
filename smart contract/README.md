@@ -39,15 +39,11 @@
 
 #### Hardhat教程
 
-- 实战需要先学会Hardhat，我写了一篇教程笔记： [Hardhat教程.md](./Hardhat教程.md) 
+- 实战需要先学会Hardhat，我写了一篇**总体介绍**笔记： [Hardhat教程.md](./Hardhat教程.md) 
 
-- 这里也有一个[Hardhat 教程](https://decert.me/tutorial/solidity/tools/hardhat)
+- 然后，我上手**实践**写了 [Hardhat实战篇——从零创建一个项目.md](Hardhat实战篇——从零创建一个项目.md) 
 
-  - > Hardhat 提供了一个灵活且易于使用的开发环境，可以轻松地编写、测试和部署智能合约。Hardhat 使用 Node 进行包管理，如果你熟悉 Node 及 Javascript， Hardhat 将非常容易上手。
-    >
-    > **Hardhat**还内置了**Hardhat 网络（Hardhat Node）**，它是为开发而设计的本地以太坊网络。 用来部署合约，运行测试和**调试代码**。
-    >
-    > 在本文中，我们将介绍：
+  - > 在本文中，我们将介绍：
     >
     > 1. 创建及配置Hardhat项目
     > 2. 编写智能合约
@@ -56,10 +52,6 @@
     > 5. 使用 `console.log()`调试 Solidity
     > 6. 使用 Hardhat 部署合约
     > 7. 使用 Hardhat Etherscan 进行开源验证。
-    >
-    > 本文对应的代码在：https://github.com/xilibi2003/training_camp_2/tree/main/w1_hardhat
-
-  - ![](./attachment/image-20241009223615860.png)
 
 - [Hardhat 中文文档](https://learnblockchain.cn/docs/hardhat/getting-started/)
 
