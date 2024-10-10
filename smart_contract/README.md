@@ -1,8 +1,3 @@
----
-layout: course_lesson
-title: 智能合约总文档
----
-
 # 智能合约的总文档
 
 ## 入门：

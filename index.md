@@ -7,7 +7,7 @@ title: 首页
 
 本站包含以下主要内容:
 
-进入Web3的技术领域分为几个部分，一个是 [智能合约](./smart_contract/README.md) 、一个是 [链上交互](./chain_interaction/README.md) 、还有一个是 [前端交互](./Front-end_Interaction/README.md) 。
+进入Web3的技术领域分为几个部分，一个是 [智能合约](./smart_contract/index.md) 、一个是 [链上交互](./chain_interaction/index.md) 、还有一个是 [前端交互](./Front-end_Interaction/index.md) 。
 
 <img alt="Web3技术map" height="60%" src="./attachment/Web3技术map.png" width="60%"/>
 

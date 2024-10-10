@@ -20,7 +20,7 @@ layout: default
         </nav>
     </aside>
     <main class="content">
-        {{ content }}
+        {{ content | md_to_html }}
 
         <div class="lesson-footer">
             <p>最后于 {{ page.last_updated | date: "%Y年%m月%d日" }} 更新</p>
