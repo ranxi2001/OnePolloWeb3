@@ -1,3 +1,8 @@
+---
+layout: course_lesson
+title: Hardhat教程
+---
+
 # Hardhat教程
 
 ## 视频介绍

@@ -1,3 +1,8 @@
+---
+layout: course_lesson
+title: Outrun项目解析
+---
+
 ## 项目架构分析
 
 项目链接：https://github.com/OutrunFinance/Outrun-App

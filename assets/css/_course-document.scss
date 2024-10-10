@@ -1,0 +1,93 @@
+.course-document {
+  display: flex;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.sidebar {
+  width: 250px;
+  padding-right: 2rem;
+}
+
+.lesson-nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.lesson-nav li {
+  margin-bottom: 0.5rem;
+}
+
+.lesson-nav a {
+  text-decoration: none;
+  color: #333;
+}
+
+.lesson-nav .active a {
+  font-weight: bold;
+  color: #007bff;
+}
+
+.content {
+  flex: 1;
+}
+
+.course-info {
+  margin-bottom: 2rem;
+}
+
+.course-link {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+.diagram {
+  margin-bottom: 2rem;
+}
+
+.lesson-content {
+  line-height: 1.6;
+}
+
+.lesson-footer {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #dee2e6;
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+.edit-link {
+  margin-left: 1rem;
+}
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
+.pagination a {
+  padding: 0.5rem 1rem;
+  background-color: #f8f9fa;
+  color: #333;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+@media (max-width: 768px) {
+  .course-document {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    padding-right: 0;
+    margin-bottom: 2rem;
+  }
+}

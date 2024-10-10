@@ -1,0 +1,15 @@
+title: OnePolloWeb3学习知识库
+description: 智能合约开发、链上交互和前端交互的学习资源
+# baseurl: "/OnePolloWeb3"
+baseurl: "/"
+# url: "https://你的GitHub用户名.github.io"
+
+# 主题设置
+# theme: minima
+
+# 构建设置
+markdown: kramdown
+
+sass:
+  sass_dir: assets/css
+  style: compressed

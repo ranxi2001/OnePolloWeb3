@@ -1,3 +1,8 @@
+---
+layout: course_lesson
+title: Hardhat实战篇——从零创建一个项目
+---
+
 # 从零开始创建一个Hardhat项目
 
 ## 创建及配置Hardhat项目

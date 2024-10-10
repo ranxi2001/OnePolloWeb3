@@ -1,3 +1,8 @@
+---
+layout: course_lesson
+title: 前端交互总文档
+---
+
 # 前端交互总文档
 
 ## 前端框架
