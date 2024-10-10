@@ -1,0 +1,54 @@
+---
+layout: default
+---
+<div class="course-document">
+    <aside class="sidebar">
+        <h2>看板</h2>
+        <nav class="lesson-nav">
+            <ul>
+                {% for lesson in site.data.course_lessons %}
+                <li {% if page.url == lesson.url %}class="active"{% endif %}>
+                    <a href="{{ lesson.url | relative_url }}">{{ lesson.title }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="content">
+        <h1>{{ page.title }}</h1>
+
+        <div class="course-info">
+            <p>{{ page.description }}</p>
+            {% if page.course_link %}
+            <a href="{{ page.course_link }}" class="course-link">查看完整课程</a>
+            {% endif %}
+        </div>
+
+        {% if page.diagram %}
+        <div class="diagram">
+            {{ page.diagram }}
+        </div>
+        {% endif %}
+
+        <div class="lesson-content">
+            {{ content }}
+        </div>
+
+        <div class="lesson-footer">
+            <p>最后于 {{ page.last_updated | date: "%Y年%m月%d日" }} 更新</p>
+            {% if page.edit_link %}
+            <a href="{{ page.edit_link }}" class="edit-link">编辑此页</a>
+            {% endif %}
+        </div>
+
+        <div class="pagination">
+            {% if page.previous.url %}
+            <a href="{{ page.previous.url | relative_url }}" class="prev">&laquo; {{ page.previous.title }}</a>
+            {% endif %}
+            {% if page.next.url %}
+            <a href="{{ page.next.url | relative_url }}" class="next">{{ page.next.title }} &raquo;</a>
+            {% endif %}
+        </div>
+    </main>
+</div>
