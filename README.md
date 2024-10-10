@@ -6,7 +6,8 @@
 
 ToDo List：
 
-- [ ] 最终决定做一个官网来展示这一部分的教程吧，OnePolloWeb3 Academy 启动！
+- [x] 最终决定做一个官网来展示这一部分的教程吧，OnePolloWeb3 Academy 启动！
+- [ ] 将其部署到 Github pages上面 !
 
 进入Web3的技术领域分为几个部分，一个是 [智能合约](./smart_contract/README.md) 、一个是 [链上交互](./chain_interaction/README.md) 、还有一个是 [前端交互](./Front-end_Interaction/README.md) 。
 
