@@ -3,7 +3,7 @@ name: Build and deploy Jekyll site to GitHub Pages
 on:
   push:
     branches:
-      - master  # 根据你的主分支选择适合的分支
+      - master  # 当 master 分支有推送时触发
 
 jobs:
   github-pages:
@@ -13,7 +13,7 @@ jobs:
       # Step 1: 检出当前代码仓库
       - uses: actions/checkout@v2
 
-      # Step 2: 设置 Ruby 3.0.0 环境
+      # Step 2: 设置 Ruby 3.2.5 环境
       - name: Set up Ruby 3.2.5
         uses: ruby/setup-ruby@v1
         with:
@@ -28,19 +28,20 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gems-
 
-      # Step 4: 安装 Bundler 2.5.21 并安装项目依赖
+      # Step 4: 安装 Bundler 和 Gems
       - name: Install Bundler and Gems
         run: |
-          gem install bundler:2.5.21  # 安装指定版本的 Bundler
-          bundle install --path vendor/bundle  # 安装项目依赖
+          gem install bundler:2.5.21
+          bundle install --path vendor/bundle
 
       # Step 5: 构建 Jekyll 站点
       - name: Build Jekyll site
         run: bundle exec jekyll build
 
-      # Step 6: 将生成的 _site 目录发布到 GitHub Pages
+      # Step 6: 部署到 GitHub Pages 的 gh-pages 分支
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}  # 自动使用 GitHub 提供的令牌
-          publish_dir: ./_site  # 指定要部署的目录
+          github_token: ${{ secrets.GITHUB_TOKEN }}  # 使用默认的 GitHub Actions token
+          publish_branch: gh-pages  # 部署到 gh-pages 分支
+          publish_dir: ./_site  # 指定要发布的目录
