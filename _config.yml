@@ -1,11 +1,9 @@
-title: OnePolloWeb3学习知识库
-description: 智能合约开发、链上交互和前端交互的学习资源
+title: OnePolloWeb3 Academy
+description: 智能合约开发、链上交互和前端交互的学习资源，实战截图一步一步的教程，完全明晰的进阶教程！
 #baseurl: "/OnePolloWeb3"
 # 采用自定义域名后不需要仓库名
 baseurl: ""  # 留空，因为现在使用的是根域名
 url: "https://learnweb3.top"  # 设置你的新域名
-
-
 
 # 构建设置
 markdown: kramdown
