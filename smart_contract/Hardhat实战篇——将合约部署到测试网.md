@@ -286,13 +286,13 @@ module.exports = {
 
 > 为了解决Win在终端中无法使用api的问题（mac使用增强模式），我们需要使用clash代理的终端，入口在：
 >
-> ![](attachment/image-20241011221919582.png)
+> ![](./attachment/image-20241011221919582.png)
 
 ![](./attachment/WinClashCmdVerify.png)
 
 最终我们也完成了自己创建并部署的合约的验证！成功开源代码并获得✅！
 
-![](attachment/image-20241011222042896.png)
+![](./attachment/image-20241011222042896.png)
 
 ## Hardhat 插件（Plugin）的使用
 
