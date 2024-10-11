@@ -1,6 +1,7 @@
 ---
 layout: course_lesson
 title: Hardhat实战篇——从零创建一个项目
+date: 2024-10-10
 ---
 
 # 从零开始创建一个Hardhat项目

@@ -23,7 +23,7 @@ layout: default
         {{ content | md_to_html }}
 
         <div class="lesson-footer">
-            <p>最后于 {{ page.last_updated | date: "%Y年%m月%d日" }} 更新</p>
+            <p>最后于 {{ page.date | date: "%Y年%m月%d日" }} 更新</p>
             {% if page.edit_link %}
             <a href="{{ page.edit_link }}" class="edit-link">编辑此页</a>
             {% endif %}
