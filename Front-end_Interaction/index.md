@@ -1,6 +1,7 @@
 ---
 layout: course_lesson
 title: 前端交互总文档
+date: 2024-10-10
 ---
 
 # 欢迎来到前端交互课程

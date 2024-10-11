@@ -1,6 +1,7 @@
 ---
 layout: course_lesson
 title: 链上交互的总文档
+date: 2024-10-10
 ---
 
 # 欢迎来到链上交互课程
