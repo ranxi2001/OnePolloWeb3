@@ -3,22 +3,44 @@ name: Build and deploy Jekyll site to GitHub Pages
 on:
   push:
     branches:
-      - master
+      - master  # 根据你的主分支选择适合的分支
 
 jobs:
   github-pages:
     runs-on: ubuntu-latest
+
     steps:
+      # Step 1: 检出当前代码仓库
       - uses: actions/checkout@v2
-      - uses: ruby/setup-ruby@v1
+
+      # Step 2: 设置 Ruby 3.0.0 环境
+      - name: Set up Ruby 3.2.5
+        uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.0'
-      - uses: actions/cache@v2
+          ruby-version: '3.2.5'
+
+      # Step 3: 缓存 Gems 依赖
+      - name: Cache Gems
+        uses: actions/cache@v2
         with:
           path: vendor/bundle
-          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile') }}
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-gems-
-      - uses: helaili/jekyll-action@v2
+
+      # Step 4: 安装 Bundler 2.5.21 并安装项目依赖
+      - name: Install Bundler and Gems
+        run: |
+          gem install bundler:2.5.21  # 安装指定版本的 Bundler
+          bundle install --path vendor/bundle  # 安装项目依赖
+
+      # Step 5: 构建 Jekyll 站点
+      - name: Build Jekyll site
+        run: bundle exec jekyll build
+
+      # Step 6: 将生成的 _site 目录发布到 GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}  # 自动使用 GitHub 提供的令牌
+          publish_dir: ./_site  # 指定要部署的目录
