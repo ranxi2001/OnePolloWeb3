@@ -81,11 +81,352 @@
         </nav>
     </aside>
     <main class="content">
-        
+        <h1 id="在hardhat中将合约部署到测试网">在Hardhat中将合约部署到测试网</h1>
+
+<p>在开始将智能合约部署到以太坊测试网之前，应该首先为你的钱包准备一些测试币。在这里，我使用的是 <a href="https://onefly.top/posts/24228.html">OKX 钱包</a>，但也可以使用更常见的 <strong>MetaMask</strong> 。建议不要用主钱包进行开发，只用它来领取测试币，随后转到一个专门的开发钱包。</p>
+
+<h2 id="sepolia测试币领取">Sepolia测试币领取</h2>
+
+<h3 id="测试网络选择">测试网络选择</h3>
+
+<blockquote>
+  <p>当前，以太坊的主要活跃测试网有两个：<strong>Sepolia</strong> 和 <strong>Holesky</strong>。</p>
+
+  <ol>
+    <li><strong>Sepolia</strong> 是目前最推荐的测试网，适合大多数 DApp 和智能合约的开发。它基于 <strong>PoS</strong> 共识机制，提供一个接近以太坊主网的环境，开发者可以使用它进行压力测试、部署和调试合约。</li>
+    <li><strong>Holesky</strong> 于 2023 年推出，是 <strong>Goerli</strong> 的替代品，主要用于更深层次的协议测试和质押机制实验。它拥有庞大的验证者网络，解决了 <strong>Goerli</strong> 测试币短缺的问题。</li>
+  </ol>
+</blockquote>
+
+<h3 id="获取-sepolia-测试币">获取 Sepolia 测试币</h3>
+
+<p>在将合约部署到 Sepolia 之前，您需要为钱包获取一定量的 Sepolia 测试币。以下是几种有效的测试币水龙头：</p>
+
+<ol>
+  <li><strong>POW 网页挖矿 ★★★★★</strong>
+    <ul>
+      <li>访问 <a href="https://sepolia-faucet.pk910.de">Sepolia Faucet</a> 可通过网页挖矿方式获取无限量的 Sepolia 测试币。</li>
+      <li><img src="./attachment/测试币挖矿水龙头.png" alt="" /></li>
+    </ul>
+  </li>
+  <li><strong>币售网 ★★★</strong>
+    <ul>
+      <li>通过 <a href="https://bisell.site/buy/6">币售网</a> 购买多种测试币，适合需要快速获取大量测试币的开发者。</li>
+      <li><img src="./attachment/币售网购买测试币.png" alt="" /></li>
+    </ul>
+  </li>
+  <li><strong>Infura Faucet ★★★★</strong>
+    <ul>
+      <li>通过社交登录访问 <a href="https://faucet.quicknode.com/sepolia">Infura Sepolia Faucet</a> 领取最多 0.5 ETH。</li>
+      <li><img src="./attachment/infura测试币水龙头.png" alt="" /></li>
+    </ul>
+  </li>
+  <li><strong>QuickNode Sepolia Faucet ★★</strong>
+    <ul>
+      <li>通过 <a href="https://faucet.quicknode.com/unichain/sepolia">QuickNode 水龙头</a> 每 12 小时可以领取 0.05 Sepolia ETH，支持 MetaMask 和 Coinbase Wallet。</li>
+    </ul>
+  </li>
+  <li><strong>Chainlink Sepolia Faucet ★★★</strong>
+    <ul>
+      <li>使用 <a href="https://faucets.chain.link/sepolia">Chainlink 水龙头</a> 你可以每 24 小时领取 Sepolia 测试币，需通过 GitHub 认证。</li>
+      <li><img src="./attachment/chainlink测试币水龙头.png" alt="" /></li>
+    </ul>
+  </li>
+  <li><strong>Alchemy Sepolia Faucet ★★</strong>
+    <ul>
+      <li><a href="https://faucets.alchemy.com">Alchemy 水龙头</a> 每 24 小时最多提供 1 ETH 的 Sepolia 测试币。注册一个 Alchemy 账户后即可领取，非常适合开发人员。</li>
+    </ul>
+  </li>
+</ol>
+
+<p>通过上述途径，我们已经获得了足够的测试币，下面开始hardhat网络参数的配置。</p>
+
+<p><img src="./attachment/测试币钱包数量.png" alt="" /></p>
+
+<h2 id="hardhat-network-配置">Hardhat network 配置</h2>
+
+<p>我们需要查询最新的官网文档来确定配置语言的格式和参数。</p>
+
+<h3 id="network参数设置">Network参数设置</h3>
+
+<p>官网有关远程部署测试网的代码示例：<a href="https://hardhat.org/tutorial/deploying-to-a-live-network#deploying-to-remote-networks">Deploying to remote networks</a></p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 这是官网样例，项目实际代码在下方</span>
+<span class="nf">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">@nomicfoundation/hardhat-toolbox</span><span class="dl">"</span><span class="p">);</span>
+
+<span class="c1">// 确保在执行脚本之前已设置好配置变量</span>
+<span class="kd">const</span> <span class="p">{</span> <span class="nx">vars</span> <span class="p">}</span> <span class="o">=</span> <span class="nf">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">hardhat/config</span><span class="dl">"</span><span class="p">);</span>
+
+<span class="c1">// 前往 <a href='https://alchemy.com'><a href='https://alchemy.com'>https://alchemy.com</a></a> 注册账号，在其控制台中创建一个新应用，</span>
+<span class="c1">// 并将其密钥添加到配置变量中</span>
+<span class="kd">const</span> <span class="nx">ALCHEMY_API_KEY</span> <span class="o">=</span> <span class="nx">vars</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="dl">"</span><span class="s2">ALCHEMY_API_KEY</span><span class="dl">"</span><span class="p">);</span>
+
+<span class="c1">// 将你的 Sepolia 账户私钥添加到配置变量中</span>
+<span class="c1">// 要从 Coinbase Wallet 导出私钥，请进入设置 &gt; 开发者设置 &gt; 显示私钥</span>
+<span class="c1">// 要从 MetaMask 导出私钥，请打开 MetaMask，进入账户详情 &gt; 导出私钥</span>
+<span class="c1">// 注意：永远不要将真实的以太币放入测试账户中</span>
+<span class="kd">const</span> <span class="nx">SEPOLIA_PRIVATE_KEY</span> <span class="o">=</span> <span class="nx">vars</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="dl">"</span><span class="s2">SEPOLIA_PRIVATE_KEY</span><span class="dl">"</span><span class="p">);</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">solidity</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.8.0</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">networks</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">sepolia</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">url</span><span class="p">:</span> <span class="s2">`<a href='https://eth-sepolia.g.alchemy.com/v2/'><a href='https://eth-sepolia.g.alchemy.com/v2/'>https://eth-sepolia.g.alchemy.com/v2/</a></a></span><span class="p">${</span><span class="nx">ALCHEMY_API_KEY</span><span class="p">}</span><span class="s2">`</span><span class="p">,</span>
+      <span class="na">accounts</span><span class="p">:</span> <span class="p">[</span><span class="nx">SEPOLIA_PRIVATE_KEY</span><span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p>为了确保私钥和 API 密钥的安全，通常会将它们存储在 <code class="language-plaintext highlighter-rouge">.env</code> 文件中，避免将敏感信息直接写入 <code class="language-plaintext highlighter-rouge">hardhat.config.js</code> 文件。初版hardhat网络配置如下：</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">@nomicfoundation/hardhat-toolbox</span><span class="dl">"</span><span class="p">);</span>
+<span class="nf">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">dotenv</span><span class="dl">'</span><span class="p">).</span><span class="nf">config</span><span class="p">();</span>  <span class="c1">// 加载 .env 文件中的变量</span>
+<span class="kd">const</span> <span class="nx">ALCHEMY_API_KEY</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">ALCHEMY_API_KEY</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">SEPOLIA_PRIVATE_KEY</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">SEPOLIA_PRIVATE_KEY</span><span class="p">;</span>
+
+<span class="cm">/** @type import('hardhat/config').HardhatUserConfig */</span>
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">solidity</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.8.0</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">networks</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">sepolia</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">url</span><span class="p">:</span> <span class="s2">`<a href='https://eth-sepolia.g.alchemy.com/v2/'><a href='https://eth-sepolia.g.alchemy.com/v2/'>https://eth-sepolia.g.alchemy.com/v2/</a></a></span><span class="p">${</span><span class="nx">ALCHEMY_API_KEY</span><span class="p">}</span><span class="s2">`</span><span class="p">,</span>
+      <span class="na">accounts</span><span class="p">:</span> <span class="p">[</span><span class="nx">SEPOLIA_PRIVATE_KEY</span><span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p>然后我们去相应的节点RPC提供商获取对应的密钥。</p>
+
+<p>以Alchemy为例：</p>
+
+<p><img src="./attachment/image-20241011203803685.png" alt="" /></p>
+
+<h3 id="生成部署测试钱包">生成部署测试钱包</h3>
+
+<p>然后我们可以用<code class="language-plaintext highlighter-rouge">Nodejs</code>脚本生成一个钱包：</p>
+
+<p><strong>安装依赖库</strong>
+首先，确保你已经安装了 Node.js 环境，并运行以下命令安装 <code class="language-plaintext highlighter-rouge">ethereumjs-wallet</code> 库：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install </span>ethereumjs-wallet
+</code></pre></div></div>
+
+<p>编写<code class="language-plaintext highlighter-rouge">Nodejs</code>脚本</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 导入 `ethereumjs-wallet` 库，用于生成以太坊钱包</span>
+<span class="kd">const</span> <span class="nx">Wallet</span> <span class="o">=</span> <span class="nf">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">ethereumjs-wallet</span><span class="dl">'</span><span class="p">).</span><span class="k">default</span><span class="p">;</span>
+
+<span class="c1">// 生成一个新的以太坊钱包对象</span>
+<span class="kd">const</span> <span class="nx">wallet</span> <span class="o">=</span> <span class="nx">Wallet</span><span class="p">.</span><span class="nf">generate</span><span class="p">();</span>
+
+<span class="c1">// 获取钱包的私钥并转换为十六进制格式</span>
+<span class="kd">const</span> <span class="nx">privateKey</span> <span class="o">=</span> <span class="nx">wallet</span><span class="p">.</span><span class="nf">getPrivateKeyString</span><span class="p">();</span>
+
+<span class="c1">// 获取钱包的公钥（地址）</span>
+<span class="kd">const</span> <span class="nx">publicKey</span> <span class="o">=</span> <span class="nx">wallet</span><span class="p">.</span><span class="nf">getAddressString</span><span class="p">();</span>
+
+<span class="c1">// 打印生成的私钥和公钥</span>
+<span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">生成的以太坊私钥:</span><span class="dl">"</span><span class="p">,</span> <span class="nx">privateKey</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">生成的以太坊地址:</span><span class="dl">"</span><span class="p">,</span> <span class="nx">publicKey</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><strong>脚本使用方法：</strong></p>
+
+<ol>
+  <li>
+    <p><strong>运行脚本</strong></p>
+
+    <ul>
+      <li>将上面的代码保存为 <code class="language-plaintext highlighter-rouge">generatePrivateKey.js</code> 文件。</li>
+      <li>在终端中运行以下命令来生成私钥和公钥：</li>
+    </ul>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>node generatePrivateKey.js
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>输出</strong>
+脚本将会输出生成的以太坊私钥和地址。例如：</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>生成的以太坊私钥: 0x4c0883a69102937d6231471b5dbb6204fe512961708279706369249dee7e2a5d
+生成的以太坊地址: 0x9F71A70A4167c785C2b9d2Dbf4B293F0F2A0D9db
+</code></pre></div>    </div>
+    <p>然后请将私钥和地址保存在<code class="language-plaintext highlighter-rouge">.env</code>文件中，以备将来使用。</p>
+  </li>
+</ol>
+
+<p>将其保存至根目录下的<code class="language-plaintext highlighter-rouge">.env</code>文件中：（样例 替换成自己的）</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">ALCHEMY_API_KEY</span><span class="o">=</span><span class="nx">FJ</span><span class="o">-</span><span class="nx">liH2bkl2jX15eV8NXxxxxxNajVl</span>
+<span class="nx">SEPOLIA_PRIVATE_KEY</span><span class="o">=</span><span class="mh">0x4c0883a69102937d6231471b5dbb6204fe512961708279706369249dee7e2a5d</span>
+<span class="nx">SEPOLIA_PUBLIC_KEY</span><span class="o">=</span><span class="mh">0x9F71A70A4167c785C2b9d2Dbf4B293F0F2A0D9db</span>
+<span class="nx">ETHERSCAN_API_KEY</span><span class="o">=</span><span class="nx">C7AYY8EXXXXXXXXXXXZEXUID8UFZU7K</span>
+</code></pre></div></div>
+
+<p>正式使用之前需要确保安装这个包<code class="language-plaintext highlighter-rouge">dotenv</code>哦：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install </span>dotenv
+</code></pre></div></div>
+
+<p>然后我们需要用自己的<strong>主钱包给这个私钥钱包的公钥地址转测试币</strong>，便可以开始在测试网部署了。为了验证我们生成的私钥钱包有效，我们可以将私钥导入到小狐狸钱包中。</p>
+
+<h2 id="正式部署测试">正式部署测试</h2>
+
+<p>本<strong>教程对应的代码仓库</strong>为：<a href="https://github.com/ranxi2001/hardhat_demo"><strong>hardhat_demo</strong></a></p>
+
+<p>最后运行：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npx hardhat run scripts/deploy.js <span class="nt">--network</span> sepolia
+</code></pre></div></div>
+
+<p>如果一切顺利，你应该看到已部署的合约地址。</p>
+
+<p><img src="./attachment/image-20241011212752167.png" alt="" /></p>
+
+<p>如图所示，我们的智能合约已经<strong>成功部署在 Sepolia 链上</strong>。</p>
+
+<p>部署这两个合约<strong>花费</strong>了我0.011个测试网ETH，我们钱包中的EHT数量相应减少。</p>
+
+<p><img src="./attachment/image-20241011213107173.png" alt="" /></p>
+
+<h2 id="代码开源验证">代码开源验证</h2>
+
+<p>智能代码开源会增加了合约的透明度和可靠性，是项目建立信任很重要的一个步骤。</p>
+
+<p>从 Metamask 钱包右上角的菜单，我们可以在区块链浏览器中查看完全的链上交互记录。</p>
+
+<p><img src="./attachment/image-20241011213558418.png" alt="" /></p>
+
+<p>在 <code class="language-plaintext highlighter-rouge">hardhat-toolbox</code> 工具箱里，包含了 <a href="https://hardhat.org/hardhat-runner/plugins/nomiclabs-hardhat-etherscan">hardhat-etherscan</a> 插件用于验证已经部署到区块链网络上的智能合约代码与源代码是否匹配，在完成验证后在区块链浏览器中合约标签上会出现✅， 如图：</p>
+
+<p><img src="./attachment/20230313104045.png" alt="" /></p>
+
+<p>在部署智能合约时，合约字节码会被写入到区块链中，这意味着其他人无法检查合约的源代码。代码验证的过程是将已部署合约的字节码与原始Solidity代码再次编译后与部署的字节码进行比较，确保它们是一致的。</p>
+
+<p>相比在区块链浏览器上上传代码验证， hardhat-etherscan 有很多优点，它会自动使用 hardhat.config.js 中设置的编译器选项，并且当代码中引用了第三方库或合约， hardhat-etherscan 能自动探测并处理。</p>
+
+<p>开源验证的步骤是：</p>
+
+<ol>
+  <li>
+    <p>安装 <code class="language-plaintext highlighter-rouge">hardhat-toolbox</code> 或 <code class="language-plaintext highlighter-rouge">hardhat-etherscan</code> ， 这一步我们这里已经完成，因为在初始化项目的时候安装了 <code class="language-plaintext highlighter-rouge">hardhat-toolbox</code> ， 如果没有安装，可以使用以下命令安装</p>
+
+    <pre><code class="language-solidity">npm install --save-dev @nomiclabs/hardhat-etherscan
+</code></pre>
+  </li>
+  <li>
+    <p>在 <code class="language-plaintext highlighter-rouge">hardhat.config.js</code> 中配置您的 Etherscan API 密钥和网络设置，例如：</p>
+  </li>
+</ol>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">@nomicfoundation/hardhat-toolbox</span><span class="dl">"</span><span class="p">);</span>
+<span class="nx">或</span>
+<span class="c1">// require("@nomiclabs/hardhat-etherscan");</span>
+
+<span class="nx">etherscan</span><span class="p">:</span> <span class="p">{</span>
+<span class="nl">apiKey</span><span class="p">:</span> <span class="dl">"</span><span class="s2">C7AXXXXXXXXXXXXUID8UFZU7K</span><span class="dl">"</span>
+<span class="p">},</span>
+</code></pre></div></div>
+
+<p><strong>最终版本的</strong><code class="language-plaintext highlighter-rouge">hardhat.config.js</code><strong>配置文件格式</strong>如下：</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">@nomicfoundation/hardhat-toolbox</span><span class="dl">"</span><span class="p">);</span>
+<span class="nf">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">dotenv</span><span class="dl">'</span><span class="p">).</span><span class="nf">config</span><span class="p">();</span>  <span class="c1">// 加载 .env 文件中的变量</span>
+<span class="kd">const</span> <span class="nx">ALCHEMY_API_KEY</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">ALCHEMY_API_KEY</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">SEPOLIA_PRIVATE_KEY</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">SEPOLIA_PRIVATE_KEY</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">ETHERSCAN_API_KEY</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">ETHERSCAN_API_KEY</span><span class="p">;</span>
+
+<span class="cm">/** @type import('hardhat/config').HardhatUserConfig */</span>
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">solidity</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.8.0</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">networks</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">sepolia</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">url</span><span class="p">:</span> <span class="s2">`<a href='https://eth-sepolia.g.alchemy.com/v2/'><a href='https://eth-sepolia.g.alchemy.com/v2/'>https://eth-sepolia.g.alchemy.com/v2/</a></a></span><span class="p">${</span><span class="nx">ALCHEMY_API_KEY</span><span class="p">}</span><span class="s2">`</span><span class="p">,</span>
+      <span class="na">accounts</span><span class="p">:</span> <span class="p">[</span><span class="nx">SEPOLIA_PRIVATE_KEY</span><span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="na">etherscan</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">apiKey</span><span class="p">:</span> <span class="nx">ETHERSCAN_API_KEY</span>
+  <span class="p">},</span>
+  <span class="na">sourcify</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">enabled</span><span class="p">:</span> <span class="kc">false</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>如何获取 Etherscan API 密钥？</p>
+
+  <ol>
+    <li>访问部署网络<strong>对应主网</strong>的「<a href="https://etherscan.io/myapikey">Etherscan 网站</a>」，并注册一个账号（如果还没有账号的话）。</li>
+    <li>登录你的账号并进入 Etherscan 的「<a href="https://etherscan.io/myaccount">我的帐户</a>」页面：</li>
+    <li>点击页面左侧的「API-KEYs」标签页。</li>
+    <li>在页面右下方的「Add」部分，输入 API 密钥的名称和描述，然后「Create New API KEY」选择需要访问的 API 权限。</li>
+    <li>点击「Add」按钮来生成 API 密钥。</li>
+  </ol>
+
+  <p><img src="./attachment/image-20241011215200631.png" alt="" /></p>
+</blockquote>
+
+<ol>
+  <li>
+    <p>执行验证命令：</p>
+
+    <div class="language-gherkin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">npx</span> <span class="err">hardhat</span> <span class="err">verify</span> <span class="err">&lt;deployed-contract-address&gt;</span> <span class="err">"参数(若有)"</span> <span class="err">--network</span> <span class="err">&lt;network-name&gt;</span> 
+</code></pre></div>    </div>
+
+    <p>例如，要在 goerli 网络上验证合约，可以运行以下命令（合约地址为结果输出的链上部署的合约地址）：</p>
+
+    <pre><code class="language-solidity">npx hardhat verify 0x61B6692103E6a8b52151B646fA9d71D60ce7ffE8 --network sepolia
+</code></pre>
+
+    <p>该命令会为我们上传合约代码并验证其源代码。如果一切顺利（网络顺畅的话），在 Etherscan 上看到的合约被成功验证。</p>
+  </li>
+</ol>
+
+<blockquote>
+  <p>为了解决Win在终端中无法使用api的问题（mac使用增强模式），我们需要使用clash代理的终端，入口在：</p>
+
+  <p><img src="./attachment/image-20241011221919582.png" alt="" /></p>
+</blockquote>
+
+<p><img src="./attachment/WinClashCmdVerify.png" alt="" /></p>
+
+<p>最终我们也完成了自己创建并部署的合约的验证！成功开源代码并获得✅！</p>
+
+<p><img src="./attachment/image-20241011222042896.png" alt="" /></p>
+
+<h2 id="hardhat-插件plugin的使用">Hardhat 插件（Plugin）的使用</h2>
+
+<p>上面代码开源验证时，使用了<code class="language-plaintext highlighter-rouge">hardhat-etherscan</code>插件，其实也可以使用 <a href="https://hardhat.org/hardhat-runner/plugins/nomicfoundation-hardhat-verify#hardhat-verify">hardhat-verify</a> 插件。</p>
+
+<p>在 <a href='https://hardhat.org/hardhat-runner/plugins'><a href='https://hardhat.org/hardhat-runner/plugins'>https://hardhat.org/hardhat-runner/plugins</a></a> 链接可以找到当前使用较多的插件。</p>
+
+<p>例如：</p>
+
+<ul>
+  <li><a href="https://www.npmjs.com/package/hardhat-gas-reporter">hardhat-gas-reporter</a> 可以对部署合约及函数执行的Gas消耗给出报告；</li>
+  <li><a href="https://www.npmjs.com/package/solidity-coverage">solidity-coverage</a> 可以对测试覆盖率给出报告。</li>
+</ul>
+
+<p>小结：本文讲述了测试代币的获取，PRC节点API的获取，代码部署到测试网的操作，开源验证合约的操作。</p>
+
+<hr />
+
+<p>参考文献：</p>
+
+<p>[1] 领取 ETH 测试币，Ui-Chain，<a href='https://www.binance.com/zh-CN/square/post/5039263303521'><a href='https://www.binance.com/zh-CN/square/post/5039263303521'>https://www.binance.com/zh-CN/square/post/5039263303521</a></a></p>
+
+<p>[2] 2023最新ETH测试网水龙头整理 (包含 Goerli 和 Sepolia)，加密先生，<a href='https://learnblockchain.cn/article/5784'><a href='https://learnblockchain.cn/article/5784'>https://learnblockchain.cn/article/5784</a></a></p>
+
+<p>[3] Hardhat 开发框架，DeCert.me，<a href='https://decert.me/tutorial/solidity/tools/hardhat/'><a href='https://decert.me/tutorial/solidity/tools/hardhat/'>https://decert.me/tutorial/solidity/tools/hardhat/</a></a></p>
+
 
 
         <div class="lesson-footer">
-            <p>最后于  更新</p>
+            <p>最后于 2024年10月11日 更新</p>
             
         </div>
 
@@ -101,7 +442,7 @@
 <!-- 页脚部分，显示版权信息和当前年份 -->
 <footer>
   <div class="container">
-    <p>&copy; 2024 OnePolloWeb3 Academy. All rights reserved.</p>
+    <p>&copy; 2024 OnePolloWeb3 Academy. Reprinting is prohibited. All rights reserved.</p>
   </div>
 </footer>
 </body>
