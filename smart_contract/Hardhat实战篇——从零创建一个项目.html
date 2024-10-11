@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <!-- 设置字符集和浏览器兼容性 -->
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- 动态生成页面标题，显示站点标题和页面标题 -->
+  <title>OnePolloWeb3学习知识库 | Hardhat实战篇——从零创建一个项目</title>
+
+  <!-- 引入站点样式表，并使用 GitHub 的构建版本进行缓存控制 -->
+  <link rel="stylesheet" href="/OnePolloWeb3/assets/css/main.css">
+
+  <!-- 添加语法高亮 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+</head>
+<body>
+<!-- 页头部分，包含品牌标识和导航栏 -->
+<header>
+  <div class="container">
+    <div id="branding">
+      <h1><a href="/OnePolloWeb3/">OnePolloWeb3学习知识库</a></h1>
+    </div>
+    <!-- 导航栏，包含智能合约、链上交互、前端交互的链接 -->
+    <nav>
+      <ul>
+        <li><a href="/OnePolloWeb3/smart_contract/">智能合约</a></li>
+        <li><a href="/OnePolloWeb3/chain_interaction/">链上交互</a></li>
+        <li><a href="/OnePolloWeb3/Front-end_Interaction/">前端交互</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- 主内容区域 -->
+<main>
+  <div class="container">
+    <!-- 动态插入页面内容 -->
+    <div class="course-document">
+    <aside class="sidebar">
+        <h2>目录</h2>
+        <nav class="lesson-nav">
+            <ul>
+                
+                
+                
+                    
+                    
+                        <li class="active">
+                            <a href="/OnePolloWeb3/smart_contract/Hardhat%E5%AE%9E%E6%88%98%E7%AF%87%E2%80%94%E2%80%94%E4%BB%8E%E9%9B%B6%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E9%A1%B9%E7%9B%AE.html">Hardhat实战篇——从零创建一个项目</a>
+                        </li>
+                    
+                
+                    
+                    
+                        <li >
+                            <a href="/OnePolloWeb3/smart_contract/Hardhat%E5%AE%9E%E6%88%98%E7%AF%87%E2%80%94%E2%80%94%E5%B0%86%E5%90%88%E7%BA%A6%E9%83%A8%E7%BD%B2%E5%88%B0%E6%B5%8B%E8%AF%95%E7%BD%91.html">Hardhat实战篇——将合约部署到测试网</a>
+                        </li>
+                    
+                
+                    
+                    
+                        <li >
+                            <a href="/OnePolloWeb3/smart_contract/Hardhat%E6%95%99%E7%A8%8B.html">Hardhat教程</a>
+                        </li>
+                    
+                
+                    
+                    
+                
+                    
+                    
+                        <li >
+                            <a href="/OnePolloWeb3/smart_contract/%E9%98%85%E8%AF%BB%E4%BC%98%E7%A7%80%E7%9A%84%E5%90%88%E7%BA%A6%E4%BB%A3%E7%A0%81.html">阅读优秀的合约代码</a>
+                        </li>
+                    
+                
+            </ul>
+        </nav>
+    </aside>
+    <main class="content">
+        <h1 id="从零开始创建一个hardhat项目">从零开始创建一个Hardhat项目</h1>
+
+<h2 id="创建及配置hardhat项目">创建及配置Hardhat项目</h2>
+
+<p>Hardhat 构建在 Node.js 之上， 使用 Hardhat 要求我们在电脑先安装好Node.js (&gt;= 16.0)， 环境准备可以参考<a href="https://learnblockchain.cn/docs/hardhat/tutorial/setting-up-the-environment.html">这里</a>。</p>
+
+<p>先创建项目目录：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir </span>hardhat-tutorial
+<span class="nb">cd </span>hardhat-tutorial
+</code></pre></div></div>
+
+<p>初始化 Node 项目：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm init
+</code></pre></div></div>
+
+<p><img src="./attachment/image-20241009231218471.png" alt="" /></p>
+
+<p>安装 Hardhat :</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install</span> <span class="nt">--save-dev</span> hardhat
+</code></pre></div></div>
+
+<p>在安装<strong>Hardhat</strong>的目录下运行：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npx hardhat
+</code></pre></div></div>
+
+<p>使用键盘选择”创建一个 JavaScript 工程（<code class="language-plaintext highlighter-rouge">Create a JavaScript project</code>）” ，然后回车。</p>
+
+<p><img src="./attachment/image-20241009231345208.png" alt="" /></p>
+
+<p>这个 JavaScript Hardhat 工程会默认下载 <code class="language-plaintext highlighter-rouge">hardhat-toolbox 插件</code>及一些常规设置：</p>
+
+<p>创建好的 Hardhat 工程包含下列文件：</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">contracts</code>：智能合约目录</li>
+  <li><code class="language-plaintext highlighter-rouge">scripts</code> ：部署脚本文件</li>
+  <li><code class="language-plaintext highlighter-rouge">test</code>：智能合约测试用例文件夹。</li>
+  <li><code class="language-plaintext highlighter-rouge">hardhat.config.js</code>：配置文件，配置hardhat连接的网络及编译选项。</li>
+</ul>
+
+<h2 id="编写合约">编写合约</h2>
+
+<p>合约开发推荐使用  <code class="language-plaintext highlighter-rouge">VSCode</code> / <code class="language-plaintext highlighter-rouge">Cursor</code> 编辑器 + <a href="https://marketplace.visualstudio.com/items?itemName=NomicFoundation.hardhat-solidity">solidity 插件</a>，在<code class="language-plaintext highlighter-rouge">contracts</code> 下新建一个合约文件 <code class="language-plaintext highlighter-rouge">Counter.sol</code> (<code class="language-plaintext highlighter-rouge">*.sol</code> 是 Solidity 合约文件的后缀名), 复制如下代码：<code class="language-plaintext highlighter-rouge">counter.sol</code></p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//SPDX-License-Identifier: MIT</span>
+<span class="nx">pragma</span> <span class="nx">solidity</span> <span class="o">^</span><span class="mf">0.8</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+
+<span class="nx">contract</span> <span class="nx">Counter</span> <span class="p">{</span>
+    <span class="nx">uint</span> <span class="nx">counter</span><span class="p">;</span>
+
+    <span class="nf">constructor</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">counter</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kd">function</span> <span class="nf">count</span><span class="p">()</span> <span class="kr">public</span> <span class="p">{</span>
+        <span class="nx">counter</span> <span class="o">=</span> <span class="nx">counter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kd">function</span> <span class="nf">get</span><span class="p">()</span> <span class="kr">public</span> <span class="nx">view</span> <span class="nf">returns </span><span class="p">(</span><span class="nx">uint</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">counter</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>接下来就可以编译这个合约了。</p>
+
+<h2 id="编译合约">编译合约</h2>
+
+<p><code class="language-plaintext highlighter-rouge">hardhat.config.js</code> 有默认的Solidity 编译器配置：<code class="language-plaintext highlighter-rouge">hardhat.config.js</code></p>
+
+<pre><code class="language-solidity">require("@nomicfoundation/hardhat-toolbox");
+
+/** @type import('hardhat/config').HardhatUserConfig */
+module.exports = {
+  solidity: "0.8.27",
+};
+</code></pre>
+
+<p>因此我们直接编译合约即可，在终端中运行 <code class="language-plaintext highlighter-rouge">npx hardhat compile</code> 。 <code class="language-plaintext highlighter-rouge">compile</code>任务是内置任务之一。</p>
+
+<div class="language-applescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">$</span><span class="w"> </span><span class="nv">npx</span><span class="w"> </span><span class="nv">hardhat</span><span class="w"> </span><span class="nv">compile</span><span class="w">
+</span><span class="nv">Downloading</span><span class="w"> </span><span class="nv">compiler</span><span class="w"> </span><span class="mf">0.8</span><span class="p">.</span><span class="mi">27</span><span class="w">
+</span><span class="nv">Compiled</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="nv">Solidity</span><span class="w"> </span><span class="nv">file</span><span class="w"> </span><span class="nv">successfully</span><span class="w"> </span><span class="p">(</span><span class="nv">evm</span><span class="w"> </span><span class="na">target</span><span class="p">:</span><span class="w"> </span><span class="nv">paris</span><span class="p">).</span><span class="w">
+</span></code></pre></div></div>
+
+<p>合约已成功编译了。</p>
+
+<p>成功编译后，会在 <code class="language-plaintext highlighter-rouge">artifacts/contracts/</code> 目录下生成<code class="language-plaintext highlighter-rouge">Counter.json</code> 和 build-info， <code class="language-plaintext highlighter-rouge">Counter.json</code>包含了智能合约的 ABI 、字节码（Bytecode）等。</p>
+
+<blockquote>
+  <p>提示</p>
+
+  <p>智能合约的 <strong>ABI（Application Binary Interface）</strong>信息，其中包括了合约的函数、事件等接口信息。这个文件通常会在与其他合约交互时使用，因为它可以被其他合约和 DApp 使用。</p>
+
+  <p><code class="language-plaintext highlighter-rouge">Bytecode </code>是部署合约所需的字节码（也称为创建时字节码），部署合约时，就是把该字节码作为交易的输入数据发送链上。</p>
+</blockquote>
+
+<p><img src="./attachment/image-20241009231653961.png" alt="" /></p>
+
+<h2 id="编写测试用例">编写测试用例</h2>
+
+<p>为智能合约编写自动化测试至关重要，因为事关用户资金。</p>
+
+<p>在我们的测试中，使用 Harhdat 内置的网络，使用<a href="https://learnblockchain.cn/ethers_v5/">ethers.js</a>与前面的合约进行交互，并使用 <a href="https://mochajs.org/">Mocha</a> 作为测试运行器。</p>
+
+<p>在项目 <code class="language-plaintext highlighter-rouge">test</code>下，并创建一个名为<code class="language-plaintext highlighter-rouge">Counter.js</code>的新文件：<code class="language-plaintext highlighter-rouge">./test/Counter.js</code></p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="p">{</span> <span class="nx">ethers</span> <span class="p">}</span> <span class="o">=</span> <span class="nf">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">hardhat</span><span class="dl">"</span><span class="p">);</span>
+<span class="kd">const</span> <span class="p">{</span> <span class="nx">expect</span> <span class="p">}</span> <span class="o">=</span> <span class="nf">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">chai</span><span class="dl">"</span><span class="p">);</span>
+
+<span class="kd">let</span> <span class="nx">counter</span><span class="p">;</span>
+
+<span class="nf">describe</span><span class="p">(</span><span class="dl">"</span><span class="s2">Counter</span><span class="dl">"</span><span class="p">,</span> <span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">async</span> <span class="kd">function</span> <span class="nf">init</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="p">[</span><span class="nx">owner</span><span class="p">,</span> <span class="nx">otherAccount</span><span class="p">]</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">ethers</span><span class="p">.</span><span class="nf">getSigners</span><span class="p">();</span>
+    <span class="kd">const</span> <span class="nx">Counter</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">ethers</span><span class="p">.</span><span class="nf">getContractFactory</span><span class="p">(</span><span class="dl">"</span><span class="s2">Counter</span><span class="dl">"</span><span class="p">);</span>
+    <span class="nx">counter</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">Counter</span><span class="p">.</span><span class="nf">deploy</span><span class="p">();</span>
+    <span class="k">await</span> <span class="nx">counter</span><span class="p">.</span><span class="nf">waitForDeployment</span><span class="p">();</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">counter:</span><span class="dl">"</span> <span class="o">+</span> <span class="k">await</span> <span class="nx">counter</span><span class="p">.</span><span class="nf">getAddress</span><span class="p">());</span>
+  <span class="p">}</span>
+
+  <span class="nf">before</span><span class="p">(</span><span class="k">async</span> <span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">await</span> <span class="nf">init</span><span class="p">();</span>
+  <span class="p">});</span>
+
+  <span class="c1">// </span>
+  <span class="nf">it</span><span class="p">(</span><span class="dl">"</span><span class="s2">init equal 0</span><span class="dl">"</span><span class="p">,</span> <span class="k">async</span> <span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
+    <span class="nf">expect</span><span class="p">(</span><span class="k">await</span> <span class="nx">counter</span><span class="p">.</span><span class="nf">get</span><span class="p">()).</span><span class="nx">to</span><span class="p">.</span><span class="nf">equal</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+  <span class="p">});</span>
+
+  <span class="nf">it</span><span class="p">(</span><span class="dl">"</span><span class="s2">add 1 equal 1</span><span class="dl">"</span><span class="p">,</span> <span class="k">async</span> <span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">tx</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">counter</span><span class="p">.</span><span class="nf">count</span><span class="p">();</span>
+    <span class="k">await</span> <span class="nx">tx</span><span class="p">.</span><span class="nf">wait</span><span class="p">();</span>
+    <span class="nf">expect</span><span class="p">(</span><span class="k">await</span> <span class="nx">counter</span><span class="p">.</span><span class="nf">get</span><span class="p">()).</span><span class="nx">to</span><span class="p">.</span><span class="nf">equal</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+  <span class="p">});</span>
+
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>在终端上运行<code class="language-plaintext highlighter-rouge">npx hardhat test</code>。 你应该看到以下输出：</p>
+
+<p><img src="./attachment/image-20241009234637717.png" alt="" /></p>
+
+<p>这意味着测试通过了。 现在我们解释下主要代码：</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">Counter</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">ethers</span><span class="p">.</span><span class="nf">getContractFactory</span><span class="p">(</span><span class="dl">"</span><span class="s2">Counter</span><span class="dl">"</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>ethers.js中的<code class="language-plaintext highlighter-rouge">ContractFactory</code>是用于部署新智能合约的抽象，因此此处的<code class="language-plaintext highlighter-rouge">Counter</code>是用来实例合约的工厂。</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">counter</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">Counter</span><span class="p">.</span><span class="nf">deploy</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>在<code class="language-plaintext highlighter-rouge">ContractFactory</code>上调用<code class="language-plaintext highlighter-rouge">deploy()</code>将启动部署，并返回解析为<code class="language-plaintext highlighter-rouge">Contract</code>的<code class="language-plaintext highlighter-rouge">Promise</code>。 该对象包含了智能合约所有函数的方法。</p>
+
+<pre><code class="language-solidity">let tx = await counter.count();
+await tx.wait();
+</code></pre>
+
+<p>在<code class="language-plaintext highlighter-rouge">counter</code> 上调用合约方法， 并等待交易执行完毕。</p>
+
+<p>注意，默认情况下， <code class="language-plaintext highlighter-rouge">ContractFactory</code>和<code class="language-plaintext highlighter-rouge">Contract</code>实例连接到第一个<a href="https://learnblockchain.cn/ethers_v5/">签名者（Singer）</a>。</p>
+
+<p>若需要使用其他的签名者， 可以使用<a href="https://learnblockchain.cn/ethers_v5/api/contract/example/#example-erc-20-contract--methods">合约实例connect 到另一个签名者</a>， 如 <code class="language-plaintext highlighter-rouge">counter.connect(otherAccount)</code></p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">expect</span><span class="p">(</span><span class="k">await</span> <span class="nx">counter</span><span class="p">.</span><span class="nf">get</span><span class="p">()).</span><span class="nx">to</span><span class="p">.</span><span class="nf">equal</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>判断相等，我们使用<a href="https://www.chaijs.com/">Chai</a>，这是一个断言库。 这些断言函数称为“匹配器”，在此实际上使用的“匹配器”来自<a href="https://hardhat.org/hardhat-runner/plugins/nomicfoundation-hardhat-chai-matchers">Hardhat Chai Matchers</a>。</p>
+
+<h2 id="使用-consolelog-调试合约">使用 Console.log 调试合约</h2>
+
+<p>在<strong>Hardhat Node</strong> 节点上运行合约和测试时，你可以在Solidity代码中调用<code class="language-plaintext highlighter-rouge">console.log()</code>打印日志信息和合约变量，可以方便我们调试代码。</p>
+
+<p>在合约代码中导入<strong>Hardhat</strong> 的<code class="language-plaintext highlighter-rouge">console.log</code>就可以使用它。</p>
+
+<pre><code class="language-solidity">import "hardhat/console.sol";
+</code></pre>
+
+<p>导入语法如上，</p>
+
+<p><strong>本文对应的代码仓库</strong>在：https://github.com/ranxi2001/hardhat_demo</p>
+
+<p>文档对应的<strong>合约和测试代码</strong>可直接在<strong>下面链接处复制</strong>（需要对应静态和 <em>动态版本——参数构造函数</em>）：</p>
+
+<blockquote>
+  <p><strong>静态版本</strong>：</p>
+
+  <ul>
+    <li>合约：
+      <ul>
+        <li>https://github.com/ranxi2001/hardhat_demo/blob/master/contracts/counter_static.sol</li>
+      </ul>
+    </li>
+    <li>测试：
+      <ul>
+        <li>https://github.com/ranxi2001/hardhat_demo/blob/master/test/Counter_static.js</li>
+      </ul>
+    </li>
+  </ul>
+
+  <p><strong>动态版本</strong>：</p>
+
+  <ul>
+    <li>合约：
+      <ul>
+        <li>https://github.com/ranxi2001/hardhat_demo/blob/master/contracts/counter_dynamic.sol</li>
+      </ul>
+    </li>
+    <li>测试：
+      <ul>
+        <li>https://github.com/ranxi2001/hardhat_demo/blob/master/test/Counte_dynamic.js</li>
+      </ul>
+    </li>
+  </ul>
+</blockquote>
+
+<p>就像在JavaScript中使用一样, 将一些<code class="language-plaintext highlighter-rouge">console.log</code>添加到函数中，运行测试时，将输出日志记录：</p>
+
+<p><img src="./attachment/image-20241010002900407.png" alt="" /></p>
+
+<p>可以在<a href="https://learnblockchain.cn/docs/hardhat/hardhat-network/#console-log">这里</a>了解更多 console.log 。</p>
+
+<h2 id="部署合约">部署合约</h2>
+
+<h3 id="本地部署">本地部署</h3>
+
+<p>其实我们在测试时， 合约已经部署到了Hardhat 内置的网络上，部署合约我们需要编写一个部署脚本。</p>
+
+<p>在<code class="language-plaintext highlighter-rouge">scripts</code>文件夹，新建一个<code class="language-plaintext highlighter-rouge">deploy.js</code> 用来写部署脚本，部署脚本其实和前面测试时 <code class="language-plaintext highlighter-rouge">init</code> 函数类似：</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="p">{</span> <span class="nx">ethers</span> <span class="p">}</span> <span class="o">=</span> <span class="nf">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">hardhat</span><span class="dl">"</span><span class="p">);</span>
+
+<span class="k">async</span> <span class="kd">function</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+
+    <span class="kd">const</span> <span class="nx">Counter</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">ethers</span><span class="p">.</span><span class="nf">getContractFactory</span><span class="p">(</span><span class="dl">"</span><span class="s2">Counter</span><span class="dl">"</span><span class="p">);</span>
+    <span class="kd">const</span> <span class="nx">counter</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">Counter</span><span class="p">.</span><span class="nf">deploy</span><span class="p">();</span>
+    <span class="k">await</span> <span class="nx">counter</span><span class="p">.</span><span class="nf">deployed</span><span class="p">();</span>
+
+    <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Counter address:</span><span class="dl">"</span><span class="p">,</span> <span class="nx">counter</span><span class="p">.</span><span class="nx">address</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nf">main</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>运行 <code class="language-plaintext highlighter-rouge">npx hardhat run scripts/deploy.js</code> 时，合约会部署到 Hardhat 内置网络上。</p>
+
+<pre><code class="language-solidity">&gt; npx hardhat run scripts/deploy.js
+Compiled 1 Solidity file successfully (evm target: paris).
+CounterStatic address: 0x5FbDB2315678afecb367f032d93F642f64180aa3
+CounterDynamic address: 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512
+</code></pre>
+
+<h3 id="链上部署">链上部署</h3>
+
+<p>为了在运行任何任务时指示<strong>Hardhat</strong>连接到特定的EVM网络，可以使用<code class="language-plaintext highlighter-rouge">--network</code>参数。 像这样：</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">npx</span> <span class="nx">hardhat</span> <span class="nx">run</span> <span class="nx">scripts</span><span class="o">/</span><span class="nx">deploy</span><span class="p">.</span><span class="nx">js</span> <span class="o">--</span><span class="nx">network</span> <span class="o">&lt;</span><span class="nx">network</span><span class="o">-</span><span class="nx">name</span><span class="o">&gt;</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">network-name</code> 需要在 <code class="language-plaintext highlighter-rouge">hardhat.config.js</code> 文件中进行配置：</p>
+
+<p>配置文件的写法可以参考官网：https://hardhat.org/hardhat-runner/docs/config</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">@nomicfoundation/hardhat-toolbox</span><span class="dl">"</span><span class="p">);</span>
+
+<span class="c1">// 填入自己的私钥或助记词，</span>
+<span class="kd">const</span> <span class="nx">PRIVATE_KEY1</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0x.... YOUR PRIVATE KEY1</span><span class="dl">"</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">PRIVATE_KEY2</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">0x....  YOUR PRIVATE KEY1</span><span class="dl">"</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">Mnemonic</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">YOUR Mnemonic</span><span class="dl">"</span><span class="p">;</span>
+
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">solidity</span><span class="p">:</span> <span class="dl">"</span><span class="s2">0.8.0</span><span class="dl">"</span><span class="p">,</span> <span class="c1">// solidity的编译版本</span>
+  <span class="na">networks</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">goerli</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">url</span><span class="p">:</span> <span class="dl">"</span><span class="s2">https://sepolia.infura.io/v3/&lt;key&gt;</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">accounts</span><span class="p">:</span> <span class="p">[</span><span class="nx">PRIVATE_KEY1</span><span class="p">,</span><span class="nx">PRIVATE_KEY2</span><span class="p">],</span>
+      <span class="na">chainId</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="p">},</span>
+    
+     <span class="na">mumbai</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">url</span><span class="p">:</span> <span class="dl">"</span><span class="s2">https://endpoints.omniatech.io/v1/matic/mumbai/public</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">accounts</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">mnemonic</span><span class="p">:</span> <span class="nx">Mnemonic</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="na">chainId</span><span class="p">:</span> <span class="mi">80001</span><span class="p">,</span>
+    <span class="p">},</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p>以上配置了两个网络，一个是以太坊测试网 <code class="language-plaintext highlighter-rouge">goerli</code>， 一个是 Polygon 测试网<code class="language-plaintext highlighter-rouge">mumbai</code>， 我们可以在 <a href="https://chainlist.org/">https://chainlist.org</a> 找到每个网络的节点 URL 及 chainID。</p>
+
+<p>在网络配置中，需要提供<code class="language-plaintext highlighter-rouge">钱包交易账户</code>， 可以通过<code class="language-plaintext highlighter-rouge">私钥</code>或<code class="language-plaintext highlighter-rouge">助记词</code> 进行配置，这里配置的账号（需要提前充币进入到账号中），在hardhat 脚本中（测试及部署脚本）调用<code class="language-plaintext highlighter-rouge">getSigners</code> 即可获得：</p>
+
+<pre><code class="language-solidity">const [owner, otherAccount] = await ethers.getSigners();
+</code></pre>
+
+<p>一个私钥对应一个Singer，助记词则对应无数个 Singer ， 为每个项目生成一个独立的账号是比较推荐的做法，使用 <a href="https://chaintool.tech/generateWallet">ChainTool 开源工具</a> 可以生成账号。</p>
+
+<blockquote>
+  <p><strong>提示</strong></p>
+
+  <p>助记词可以推导出无数了私钥，可参考：<a href="https://learnblockchain.cn/2018/09/28/hdwallet">BIP39</a></p>
+</blockquote>
+
+<p>另外要注意， 在 Goerli 上进行部署，需要将Goerli-ETH发送到将要进行部署的地址中。 可以从水龙头免费获取一些测试币，这是Goerli的一个水龙头:</p>
+
+<ul>
+  <li><a href="https://goerlifaucet.com/">Alchemy Goerli Faucet</a></li>
+</ul>
+
+<p>最后运行：</p>
+
+<pre><code class="language-solidity">npx hardhat run scripts/deploy.js --network goerli
+</code></pre>
+
+<p>如果一切顺利，你应该看到已部署的合约地址。</p>
+
+<p>真实的<strong>链上部署演示</strong>将会在下一篇讲述： <strong><a href="./Hardhat实战篇——将合约部署到测试网.html">Hardhat实战篇——将合约部署到测试网.md</a></strong></p>
+
+<hr />
+
+<p>参考文献：</p>
+
+<p>[1] Hardhat 开发框架，DeCert.me，https://decert.me/tutorial/solidity/tools/hardhat/</p>
+
+
+        <div class="lesson-footer">
+            <p>最后于 2024年10月10日 更新</p>
+            
+        </div>
+
+        <div class="pagination">
+            
+            
+        </div>
+    </main>
+</div>
+  </div>
+</main>
+
+<!-- 页脚部分，显示版权信息和当前年份 -->
+<footer>
+  <div class="container">
+    <p>&copy; 2024 OnePolloWeb3学习知识库. All rights reserved.</p>
+  </div>
+</footer>
+</body>
+</html>

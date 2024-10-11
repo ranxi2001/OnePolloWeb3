@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <!-- 设置字符集和浏览器兼容性 -->
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- 动态生成页面标题，显示站点标题和页面标题 -->
+  <title>OnePolloWeb3学习知识库 | Outrun项目解析</title>
+
+  <!-- 引入站点样式表，并使用 GitHub 的构建版本进行缓存控制 -->
+  <link rel="stylesheet" href="/OnePolloWeb3/assets/css/main.css">
+
+  <!-- 添加语法高亮 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+</head>
+<body>
+<!-- 页头部分，包含品牌标识和导航栏 -->
+<header>
+  <div class="container">
+    <div id="branding">
+      <h1><a href="/OnePolloWeb3/">OnePolloWeb3学习知识库</a></h1>
+    </div>
+    <!-- 导航栏，包含智能合约、链上交互、前端交互的链接 -->
+    <nav>
+      <ul>
+        <li><a href="/OnePolloWeb3/smart_contract/">智能合约</a></li>
+        <li><a href="/OnePolloWeb3/chain_interaction/">链上交互</a></li>
+        <li><a href="/OnePolloWeb3/Front-end_Interaction/">前端交互</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- 主内容区域 -->
+<main>
+  <div class="container">
+    <!-- 动态插入页面内容 -->
+    <div class="course-document">
+    <aside class="sidebar">
+        <h2>目录</h2>
+        <nav class="lesson-nav">
+            <ul>
+                
+                
+                
+                    
+                    
+                        <li class="active">
+                            <a href="/OnePolloWeb3/Front-end_Interaction/Outrun%E9%A1%B9%E7%9B%AE%E8%A7%A3%E6%9E%90.html">Outrun项目解析</a>
+                        </li>
+                    
+                
+                    
+                    
+                
+            </ul>
+        </nav>
+    </aside>
+    <main class="content">
+        <h2 id="项目架构分析">项目架构分析</h2>
+
+<p>项目链接：https://github.com/OutrunFinance/Outrun-App</p>
+
+<p>根据提供的代码片段和项目结构,我可以对这个项目进行以下分析:</p>
+
+<ol>
+  <li>技术栈:
+    <ul>
+      <li>前端框架: Next.js (React)</li>
+      <li>UI组件库: NextUI</li>
+      <li>状态管理: React Query</li>
+      <li>区块链交互: wagmi, viem</li>
+      <li>样式: Tailwind CSS</li>
+      <li>类型检查: TypeScript</li>
+    </ul>
+  </li>
+  <li>项目结构:
+这是一个去中心化金融(DeFi)应用,主要功能包括:
+    <ul>
+      <li>代币交换(Swap)</li>
+      <li>流动性提供(Liquidity)</li>
+      <li>质押(Staking)</li>
+      <li>代币发行(FFLaunch)</li>
+    </ul>
+  </li>
+  <li>核心功能:
+    <ul>
+      <li>代币交换:实现了类似Uniswap V2的自动做市商(AMM)机制。</li>
+      <li>流动性管理:允许用户添加和移除流动性。</li>
+      <li>路由:实现了最优交易路径的计算。</li>
+    </ul>
+  </li>
+</ol>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="k">public</span> <span class="k">static</span> <span class="nf">swapCallParameters</span><span class="p">(</span>
+    <span class="nx">inputCurrency</span><span class="p">:</span> <span class="nx">Currency</span><span class="p">,</span>
+    <span class="nx">outputCurrency</span><span class="p">:</span> <span class="nx">Currency</span><span class="p">,</span>
+    <span class="nx">trade</span><span class="p">:</span> <span class="nx">Trade</span><span class="o">&lt;</span><span class="nx">Currency</span><span class="p">,</span> <span class="nx">Currency</span><span class="p">,</span> <span class="nx">TradeType</span><span class="o">&gt;</span><span class="p">,</span>
+    <span class="nx">options</span><span class="p">:</span> <span class="nx">TradeOptions</span> <span class="o">|</span> <span class="nx">TradeOptionsDeadline</span><span class="p">,</span>
+  <span class="p">):</span> <span class="nx">SwapParameters</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">etherIn</span> <span class="o">=</span> <span class="nx">inputCurrency</span><span class="p">.</span><span class="nx">isNative</span><span class="p">;</span>
+    <span class="kd">const</span> <span class="nx">etherOut</span> <span class="o">=</span> <span class="nx">outputCurrency</span><span class="p">.</span><span class="nx">isNative</span><span class="p">;</span>
+    <span class="c1">// the router does not support both ether in and out</span>
+    <span class="nf">invariant</span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="nx">etherIn</span> <span class="o">&amp;&amp;</span> <span class="nx">etherOut</span><span class="p">),</span> <span class="dl">"</span><span class="s2">ETHER_IN_OUT</span><span class="dl">"</span><span class="p">);</span>
+    <span class="nf">invariant</span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="dl">"</span><span class="s2">ttl</span><span class="dl">"</span> <span class="k">in</span> <span class="nx">options</span><span class="p">)</span> <span class="o">||</span> <span class="nx">options</span><span class="p">.</span><span class="nx">ttl</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="dl">"</span><span class="s2">TTL</span><span class="dl">"</span><span class="p">);</span>
+
+    <span class="kd">const</span> <span class="nx">to</span><span class="p">:</span> <span class="kr">string</span> <span class="o">=</span> <span class="nf">validateAndParseAddress</span><span class="p">(</span><span class="nx">options</span><span class="p">.</span><span class="nx">recipient</span><span class="p">);</span>
+    <span class="kd">const</span> <span class="nx">amountIn</span><span class="p">:</span> <span class="kr">string</span> <span class="o">=</span> <span class="nf">toHex</span><span class="p">(</span><span class="nx">trade</span><span class="p">.</span><span class="nf">maximumAmountIn</span><span class="p">(</span><span class="nx">options</span><span class="p">.</span><span class="nx">allowedSlippage</span><span class="p">));</span>
+    <span class="kd">const</span> <span class="nx">amountOut</span><span class="p">:</span> <span class="kr">string</span> <span class="o">=</span> <span class="nf">toHex</span><span class="p">(</span><span class="nx">trade</span><span class="p">.</span><span class="nf">minimumAmountOut</span><span class="p">(</span><span class="nx">options</span><span class="p">.</span><span class="nx">allowedSlippage</span><span class="p">));</span>
+
+    <span class="kd">const</span> <span class="nx">path</span><span class="p">:</span> <span class="kr">string</span><span class="p">[]</span> <span class="o">=</span> <span class="nx">trade</span><span class="p">.</span><span class="nx">route</span><span class="p">.</span><span class="nx">path</span><span class="p">.</span><span class="nf">map</span><span class="p">((</span><span class="nx">token</span><span class="p">:</span> <span class="nx">Token</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">token</span><span class="p">.</span><span class="nx">address</span><span class="p">);</span>
+    <span class="kd">const</span> <span class="nx">deadline</span> <span class="o">=</span>
+      <span class="dl">"</span><span class="s2">ttl</span><span class="dl">"</span> <span class="k">in</span> <span class="nx">options</span>
+        <span class="p">?</span> <span class="s2">`0x</span><span class="p">${(</span><span class="nb">Math</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="k">new</span> <span class="nc">Date</span><span class="p">().</span><span class="nf">getTime</span><span class="p">()</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">)</span> <span class="o">+</span> <span class="nx">options</span><span class="p">.</span><span class="nx">ttl</span><span class="p">).</span><span class="nf">toString</span><span class="p">(</span><span class="mi">16</span><span class="p">)}</span><span class="s2">`</span>
+        <span class="p">:</span> <span class="s2">`0x</span><span class="p">${</span><span class="nx">options</span><span class="p">.</span><span class="nx">deadline</span><span class="p">.</span><span class="nf">toString</span><span class="p">(</span><span class="mi">16</span><span class="p">)}</span><span class="s2">`</span><span class="p">;</span>
+
+    <span class="kd">const</span> <span class="nx">useFeeOnTransfer</span> <span class="o">=</span> <span class="nc">Boolean</span><span class="p">(</span><span class="nx">options</span><span class="p">.</span><span class="nx">feeOnTransfer</span><span class="p">);</span>
+
+    <span class="kd">let</span> <span class="nx">methodName</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+    <span class="kd">let</span> <span class="nx">args</span><span class="p">:</span> <span class="p">(</span><span class="kr">string</span> <span class="o">|</span> <span class="kr">string</span><span class="p">[])[];</span>
+    <span class="kd">let</span> <span class="nx">value</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+    <span class="k">switch </span><span class="p">(</span><span class="nx">trade</span><span class="p">.</span><span class="nx">tradeType</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">case</span> <span class="nx">TradeType</span><span class="p">.</span><span class="nx">EXACT_INPUT</span><span class="p">:</span>
+        <span class="k">if </span><span class="p">(</span><span class="nx">etherIn</span><span class="p">)</span> <span class="p">{</span>
+          <span class="k">if </span><span class="p">(</span><span class="nx">outputCurrency</span><span class="p">.</span><span class="nf">equals</span><span class="p">(</span><span class="nx">USDB</span><span class="p">[</span><span class="nx">outputCurrency</span><span class="p">.</span><span class="nx">chainId</span><span class="p">]))</span> <span class="p">{</span>
+            <span class="nx">methodName</span> <span class="o">=</span> <span class="nx">useFeeOnTransfer</span> <span class="p">?</span> <span class="dl">"</span><span class="s2">swapExactETHForUSDBSupportingFeeOnTransferTokens</span><span class="dl">"</span> <span class="p">:</span> <span class="dl">"</span><span class="s2">swapExactETHForUSDB</span><span class="dl">"</span><span class="p">;</span>
+          <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nx">methodName</span> <span class="o">=</span> <span class="nx">useFeeOnTransfer</span>
+              <span class="p">?</span> <span class="dl">"</span><span class="s2">swapExactETHForTokensSupportingFeeOnTransferTokens</span><span class="dl">"</span>
+              <span class="p">:</span> <span class="dl">"</span><span class="s2">swapExactETHForTokens</span><span class="dl">"</span><span class="p">;</span>
+          <span class="p">}</span>
+
+          <span class="c1">// (uint amountOutMin, address[] calldata path, address to, uint deadline)</span>
+          <span class="nx">args</span> <span class="o">=</span> <span class="p">[</span><span class="nx">amountOut</span><span class="p">,</span> <span class="nx">path</span><span class="p">,</span> <span class="nx">to</span><span class="p">,</span> <span class="nx">deadline</span><span class="p">];</span>
+          <span class="nx">value</span> <span class="o">=</span> <span class="nx">amountIn</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="k">if </span><span class="p">(</span><span class="nx">etherOut</span><span class="p">)</span> <span class="p">{</span>
+          <span class="k">if </span><span class="p">(</span><span class="nx">inputCurrency</span><span class="p">.</span><span class="nf">equals</span><span class="p">(</span><span class="nx">USDB</span><span class="p">[</span><span class="nx">inputCurrency</span><span class="p">.</span><span class="nx">chainId</span><span class="p">]))</span> <span class="p">{</span>
+            <span class="nx">methodName</span> <span class="o">=</span> <span class="nx">useFeeOnTransfer</span> <span class="p">?</span> <span class="dl">"</span><span class="s2">swapExactUSDBForETHSupportingFeeOnTransferTokens</span><span class="dl">"</span> <span class="p">:</span> <span class="dl">"</span><span class="s2">swapExactUSDBForETH</span><span class="dl">"</span><span class="p">;</span>
+          <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nx">methodName</span> <span class="o">=</span> <span class="nx">useFeeOnTransfer</span>
+              <span class="p">?</span> <span class="dl">"</span><span class="s2">swapExactTokensForETHSupportingFeeOnTransferTokens</span><span class="dl">"</span>
+              <span class="p">:</span> <span class="dl">"</span><span class="s2">swapExactTokensForETH</span><span class="dl">"</span><span class="p">;</span>
+          <span class="p">}</span>
+
+          <span class="c1">// (uint amountIn, uint amountOutMin, address[] calldata path, address to, uint deadline)</span>
+          <span class="nx">args</span> <span class="o">=</span> <span class="p">[</span><span class="nx">amountIn</span><span class="p">,</span> <span class="nx">amountOut</span><span class="p">,</span> <span class="nx">path</span><span class="p">,</span> <span class="nx">to</span><span class="p">,</span> <span class="nx">deadline</span><span class="p">];</span>
+          <span class="nx">value</span> <span class="o">=</span> <span class="nx">ZERO_HEX</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="k">if </span><span class="p">(</span><span class="nx">inputCurrency</span><span class="p">.</span><span class="nf">equals</span><span class="p">(</span><span class="nx">USDB</span><span class="p">[</span><span class="nx">inputCurrency</span><span class="p">.</span><span class="nx">chainId</span><span class="p">]))</span> <span class="p">{</span>
+          <span class="nx">methodName</span> <span class="o">=</span> <span class="nx">useFeeOnTransfer</span>
+            <span class="p">?</span> <span class="dl">"</span><span class="s2">swapExactUSDBForTokensSupportingFeeOnTransferTokens</span><span class="dl">"</span>
+            <span class="p">:</span> <span class="dl">"</span><span class="s2">swapExactUSDBForTokens</span><span class="dl">"</span><span class="p">;</span>
+          <span class="c1">// (uint amountIn, uint amountOutMin, address[] calldata path, address to, uint deadline)</span>
+          <span class="nx">args</span> <span class="o">=</span> <span class="p">[</span><span class="nx">amountIn</span><span class="p">,</span> <span class="nx">amountOut</span><span class="p">,</span> <span class="nx">path</span><span class="p">,</span> <span class="nx">to</span><span class="p">,</span> <span class="nx">deadline</span><span class="p">];</span>
+          <span class="nx">value</span> <span class="o">=</span> <span class="nx">ZERO_HEX</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="k">if </span><span class="p">(</span><span class="nx">outputCurrency</span><span class="p">.</span><span class="nf">equals</span><span class="p">(</span><span class="nx">USDB</span><span class="p">[</span><span class="nx">outputCurrency</span><span class="p">.</span><span class="nx">chainId</span><span class="p">]))</span> <span class="p">{</span>
+          <span class="nx">methodName</span> <span class="o">=</span> <span class="nx">useFeeOnTransfer</span>
+            <span class="p">?</span> <span class="dl">"</span><span class="s2">swapExactTokensForUSDBSupportingFeeOnTransferTokens</span><span class="dl">"</span>
+            <span class="p">:</span> <span class="dl">"</span><span class="s2">swapExactTokensForUSDB</span><span class="dl">"</span><span class="p">;</span>
+          <span class="c1">// (uint amountIn, uint amountOutMin, address[] calldata path, address to, uint deadline)</span>
+          <span class="nx">args</span> <span class="o">=</span> <span class="p">[</span><span class="nx">amountIn</span><span class="p">,</span> <span class="nx">amountOut</span><span class="p">,</span> <span class="nx">path</span><span class="p">,</span> <span class="nx">to</span><span class="p">,</span> <span class="nx">deadline</span><span class="p">];</span>
+          <span class="nx">value</span> <span class="o">=</span> <span class="nx">ZERO_HEX</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+          <span class="nx">methodName</span> <span class="o">=</span> <span class="nx">useFeeOnTransfer</span>
+            <span class="p">?</span> <span class="dl">"</span><span class="s2">swapExactTokensForTokensSupportingFeeOnTransferTokens</span><span class="dl">"</span>
+            <span class="p">:</span> <span class="dl">"</span><span class="s2">swapExactTokensForTokens</span><span class="dl">"</span><span class="p">;</span>
+          <span class="c1">// (uint amountIn, uint amountOutMin, address[] calldata path, address to, uint deadline)</span>
+          <span class="nx">args</span> <span class="o">=</span> <span class="p">[</span><span class="nx">amountIn</span><span class="p">,</span> <span class="nx">amountOut</span><span class="p">,</span> <span class="nx">path</span><span class="p">,</span> <span class="nx">to</span><span class="p">,</span> <span class="nx">deadline</span><span class="p">];</span>
+          <span class="nx">value</span> <span class="o">=</span> <span class="nx">ZERO_HEX</span><span class="p">;</span>
+        <span class="p">}</span>
+</code></pre></div></div>
+
+<ol>
+  <li>用户界面:
+    <ul>
+      <li>使用NextUI组件库构建现代化的UI界面。</li>
+      <li>实现了代币选择器等自定义组件。</li>
+    </ul>
+  </li>
+</ol>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">ArrowLeft</span><span class="p">,</span> <span class="nx">Search</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">lucide-react</span><span class="dl">"</span><span class="p">;</span>
+</code></pre></div></div>
+
+<ol>
+  <li>区块链交互:
+    <ul>
+      <li>使用wagmi和viem库与以太坊兼容链进行交互。</li>
+      <li>实现了代币数据和交易对数据的获取。</li>
+    </ul>
+  </li>
+</ol>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">export</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Fetcher</span> <span class="p">{</span>
+  <span class="cm">/**
+   * Cannot be constructed.
+   */</span>
+  <span class="k">private</span> <span class="nf">constructor</span><span class="p">()</span> <span class="p">{}</span>
+
+  <span class="cm">/**
+   * Fetch information for a given token on the given chain, using the given viem provider.
+   * @param chainId chain of the token
+   * @param address address of the token on the chain
+   * @param provider provider used to fetch the token
+   * @param symbol symbol of the token
+   * @param name optional name of the token
+   */</span>
+  <span class="k">public</span> <span class="k">static</span> <span class="k">async</span> <span class="nf">fetchTokenData</span><span class="p">(</span>
+    <span class="nx">chainId</span><span class="p">:</span> <span class="nx">ChainId</span><span class="p">,</span>
+    <span class="nx">address</span><span class="p">:</span> <span class="nx">Address</span><span class="p">,</span>
+    <span class="nx">publicClient</span><span class="p">:</span> <span class="nx">PublicClient</span><span class="p">,</span>
+    <span class="nx">symbol</span><span class="p">?:</span> <span class="kr">string</span><span class="p">,</span>
+    <span class="nx">name</span><span class="p">?:</span> <span class="kr">string</span><span class="p">,</span>
+  <span class="p">):</span> <span class="nb">Promise</span><span class="o">&lt;</span><span class="nx">Token</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">erc20</span> <span class="o">=</span> <span class="nf">getContract</span><span class="p">({</span>
+      <span class="na">abi</span><span class="p">:</span> <span class="nx">erc20ABI</span><span class="p">,</span>
+      <span class="nx">address</span><span class="p">,</span>
+      <span class="na">client</span><span class="p">:</span> <span class="nx">publicClient</span><span class="p">,</span>
+    <span class="p">});</span>
+    <span class="kd">const</span> <span class="nx">parsedDecimals</span> <span class="o">=</span>
+      <span class="k">typeof</span> <span class="nx">TOKEN_DECIMALS_CACHE</span><span class="p">?.[</span><span class="nx">chainId</span><span class="p">]?.[</span><span class="nx">address</span><span class="p">]</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">number</span><span class="dl">"</span>
+        <span class="p">?</span> <span class="nx">TOKEN_DECIMALS_CACHE</span><span class="p">[</span><span class="nx">chainId</span><span class="p">][</span><span class="nx">address</span><span class="p">]</span>
+        <span class="p">:</span> <span class="k">await</span> <span class="nx">erc20</span><span class="p">.</span><span class="nx">read</span><span class="p">.</span><span class="nf">decimals</span><span class="p">([]).</span><span class="nf">then</span><span class="p">((</span><span class="na">decimals</span><span class="p">:</span> <span class="kr">any</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="c1">// @ts-ignore</span>
+            <span class="nx">TOKEN_DECIMALS_CACHE</span> <span class="o">=</span> <span class="p">{</span>
+              <span class="p">...</span><span class="nx">TOKEN_DECIMALS_CACHE</span><span class="p">,</span>
+              <span class="p">[</span><span class="nx">chainId</span><span class="p">]:</span> <span class="p">{</span>
+                <span class="p">...</span><span class="nx">TOKEN_DECIMALS_CACHE</span><span class="p">?.[</span><span class="nx">chainId</span><span class="p">],</span>
+                <span class="p">[</span><span class="nx">address</span><span class="p">]:</span> <span class="nx">decimals</span><span class="p">,</span>
+              <span class="p">},</span>
+            <span class="p">};</span>
+            <span class="c1">// @ts-ignore</span>
+            <span class="k">return</span> <span class="nx">decimals</span><span class="p">;</span>
+          <span class="p">});</span>
+    <span class="kd">let</span> <span class="nx">_symbol</span> <span class="o">=</span> <span class="dl">""</span><span class="p">;</span>
+    <span class="k">if </span><span class="p">(</span><span class="o">!</span><span class="nx">symbol</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">_symbol</span> <span class="o">=</span> <span class="p">(</span><span class="k">await</span> <span class="nx">erc20</span><span class="p">.</span><span class="nx">read</span><span class="p">.</span><span class="nf">symbol</span><span class="p">().</span><span class="k">catch</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="nx">address</span><span class="p">))</span> <span class="kd">as </span><span class="kr">string</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nc">Token</span><span class="p">(</span><span class="nx">chainId</span><span class="p">,</span> <span class="nx">address</span><span class="p">,</span> <span class="nx">parsedDecimals</span><span class="p">,</span> <span class="nx">symbol</span> <span class="o">||</span> <span class="nx">_symbol</span><span class="p">,</span> <span class="nx">name</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="cm">/**
+   * Fetches information about a pair and constructs a pair from the given two tokens.
+   * @param tokenA first token
+   * @param tokenB second token
+   * @param provider the provider to use to fetch the data
+   */</span>
+  <span class="k">public</span> <span class="k">static</span> <span class="k">async</span> <span class="nf">fetchPairData</span><span class="p">(</span><span class="nx">tokenA</span><span class="p">:</span> <span class="nx">Token</span><span class="p">,</span> <span class="nx">tokenB</span><span class="p">:</span> <span class="nx">Token</span><span class="p">,</span> <span class="nx">publicClient</span><span class="p">:</span> <span class="nx">PublicClient</span><span class="p">):</span> <span class="nb">Promise</span><span class="o">&lt;</span><span class="nx">Pair</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="nf">invariant</span><span class="p">(</span><span class="nx">tokenA</span><span class="p">.</span><span class="nx">chainId</span> <span class="o">===</span> <span class="nx">tokenB</span><span class="p">.</span><span class="nx">chainId</span><span class="p">,</span> <span class="dl">"</span><span class="s2">CHAIN_ID</span><span class="dl">"</span><span class="p">);</span>
+    <span class="kd">const</span> <span class="nx">address</span> <span class="o">=</span> <span class="nx">Pair</span><span class="p">.</span><span class="nf">getAddress</span><span class="p">(</span><span class="nx">tokenA</span><span class="p">,</span> <span class="nx">tokenB</span><span class="p">)</span> <span class="kd">as </span><span class="nx">Address</span><span class="p">;</span>
+    <span class="c1">// console.log(address);</span>
+
+    <span class="kd">const</span> <span class="nx">pairContract</span> <span class="o">=</span> <span class="nf">getContract</span><span class="p">({</span>
+      <span class="na">abi</span><span class="p">:</span> <span class="nx">PairABI</span><span class="p">,</span>
+      <span class="nx">address</span><span class="p">,</span>
+      <span class="na">client</span><span class="p">:</span> <span class="nx">publicClient</span><span class="p">,</span>
+    <span class="p">});</span>
+    <span class="kd">const</span> <span class="p">[</span><span class="nx">reserves0</span><span class="p">,</span> <span class="nx">reserves1</span><span class="p">]</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">pairContract</span><span class="p">.</span><span class="nx">read</span><span class="p">.</span><span class="nf">getReserves</span><span class="p">();</span>
+    <span class="kd">const</span> <span class="nx">balances</span> <span class="o">=</span> <span class="nx">tokenA</span><span class="p">.</span><span class="nf">sortsBefore</span><span class="p">(</span><span class="nx">tokenB</span><span class="p">)</span> <span class="p">?</span> <span class="p">[</span><span class="nx">reserves0</span><span class="p">,</span> <span class="nx">reserves1</span><span class="p">]</span> <span class="p">:</span> <span class="p">[</span><span class="nx">reserves1</span><span class="p">,</span> <span class="nx">reserves0</span><span class="p">];</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nc">Pair</span><span class="p">(</span>
+      <span class="nx">CurrencyAmount</span><span class="p">.</span><span class="nf">fromRawAmount</span><span class="p">(</span><span class="nx">tokenA</span><span class="p">,</span> <span class="nx">balances</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">toString</span><span class="p">()),</span>
+      <span class="nx">CurrencyAmount</span><span class="p">.</span><span class="nf">fromRawAmount</span><span class="p">(</span><span class="nx">tokenB</span><span class="p">,</span> <span class="nx">balances</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">toString</span><span class="p">()),</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ol>
+  <li>项目特点:
+    <ul>
+      <li>支持多链:项目似乎支持多个区块链网络,包括Blast和Blast Sepolia测试网。</li>
+      <li>费用on-transfer:考虑了带有转账费用的代币。</li>
+      <li>自定义路由:实现了针对特定代币(如USDB)的自定义交换路由。</li>
+    </ul>
+  </li>
+  <li>开发工具:
+    <ul>
+      <li>使用pnpm作为包管理器</li>
+      <li>使用ESLint进行代码质量控制</li>
+      <li>使用GraphQL客户端(可能用于数据查询)</li>
+    </ul>
+  </li>
+</ol>
+
+<p>总的来说,这是一个功能丰富的DeFi应用,实现了代币交换、流动性提供、质押等核心功能。项目使用了现代化的前端技术栈,并且考虑了多链支持和特殊代币(如带有转账费用的代币)的处理。项目结构清晰,分离了核心逻辑(SDK)和用户界面,有利于代码的维护和扩展。</p>
+
+
+        <div class="lesson-footer">
+            <p>最后于  更新</p>
+            
+        </div>
+
+        <div class="pagination">
+            
+            
+        </div>
+    </main>
+</div>
+  </div>
+</main>
+
+<!-- 页脚部分，显示版权信息和当前年份 -->
+<footer>
+  <div class="container">
+    <p>&copy; 2024 OnePolloWeb3学习知识库. All rights reserved.</p>
+  </div>
+</footer>
+</body>
+</html>

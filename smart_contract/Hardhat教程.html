@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <!-- 设置字符集和浏览器兼容性 -->
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- 动态生成页面标题，显示站点标题和页面标题 -->
+  <title>OnePolloWeb3学习知识库 | Hardhat教程</title>
+
+  <!-- 引入站点样式表，并使用 GitHub 的构建版本进行缓存控制 -->
+  <link rel="stylesheet" href="/OnePolloWeb3/assets/css/main.css">
+
+  <!-- 添加语法高亮 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+</head>
+<body>
+<!-- 页头部分，包含品牌标识和导航栏 -->
+<header>
+  <div class="container">
+    <div id="branding">
+      <h1><a href="/OnePolloWeb3/">OnePolloWeb3学习知识库</a></h1>
+    </div>
+    <!-- 导航栏，包含智能合约、链上交互、前端交互的链接 -->
+    <nav>
+      <ul>
+        <li><a href="/OnePolloWeb3/smart_contract/">智能合约</a></li>
+        <li><a href="/OnePolloWeb3/chain_interaction/">链上交互</a></li>
+        <li><a href="/OnePolloWeb3/Front-end_Interaction/">前端交互</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- 主内容区域 -->
+<main>
+  <div class="container">
+    <!-- 动态插入页面内容 -->
+    <div class="course-document">
+    <aside class="sidebar">
+        <h2>目录</h2>
+        <nav class="lesson-nav">
+            <ul>
+                
+                
+                
+                    
+                    
+                        <li >
+                            <a href="/OnePolloWeb3/smart_contract/Hardhat%E5%AE%9E%E6%88%98%E7%AF%87%E2%80%94%E2%80%94%E4%BB%8E%E9%9B%B6%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E9%A1%B9%E7%9B%AE.html">Hardhat实战篇——从零创建一个项目</a>
+                        </li>
+                    
+                
+                    
+                    
+                        <li >
+                            <a href="/OnePolloWeb3/smart_contract/Hardhat%E5%AE%9E%E6%88%98%E7%AF%87%E2%80%94%E2%80%94%E5%B0%86%E5%90%88%E7%BA%A6%E9%83%A8%E7%BD%B2%E5%88%B0%E6%B5%8B%E8%AF%95%E7%BD%91.html">Hardhat实战篇——将合约部署到测试网</a>
+                        </li>
+                    
+                
+                    
+                    
+                        <li class="active">
+                            <a href="/OnePolloWeb3/smart_contract/Hardhat%E6%95%99%E7%A8%8B.html">Hardhat教程</a>
+                        </li>
+                    
+                
+                    
+                    
+                
+                    
+                    
+                        <li >
+                            <a href="/OnePolloWeb3/smart_contract/%E9%98%85%E8%AF%BB%E4%BC%98%E7%A7%80%E7%9A%84%E5%90%88%E7%BA%A6%E4%BB%A3%E7%A0%81.html">阅读优秀的合约代码</a>
+                        </li>
+                    
+                
+            </ul>
+        </nav>
+    </aside>
+    <main class="content">
+        <h1 id="hardhat教程">Hardhat教程</h1>
+
+<h2 id="视频介绍">视频介绍</h2>
+
+<p><strong><a href="https://www.bilibili.com/video/BV1jy4y1K7Tj/?share_source=copy_web&amp;vd_source=06d5516ee4f517472270277cac88fae0">Solidity 基础课第三节：使用Hardhat-测试与任务</a></strong></p>
+
+<p><img src="./attachment/image-20241008204626295.png" alt="" /></p>
+
+<h2 id="hardhat简介">Hardhat简介</h2>
+
+<ul>
+  <li>一个灵活、快速、可扩展的以太坊智能合约开发环境。</li>
+  <li>当前最流行的开发框架</li>
+  <li>最丰富的社区支持和插件生态</li>
+</ul>
+
+<h3 id="hardhat组成部分">Hardhat组成部分</h3>
+
+<ul>
+  <li>Hardhat Runner:Hardhati运行环境，核心为task和plugin</li>
+  <li>Hardhat Network:开发使用的本地网络</li>
+  <li>Hardhat VSCode:为VSCode中开发Solidityi设计的插件</li>
+</ul>
+
+<h3 id="为什么使用hardhat">为什么使用Hardhat</h3>
+
+<ul>
+  <li>无需配置网络环境，在本地开发智能合约并利用Hardhat Network 模拟部署和测试</li>
+  <li>
+    <p>丰富的Debug.工具，包括合约中使用console.log,以及返回详细的错误信息和堆栈追踪信息</p>
+  </li>
+  <li>灵活性：自由地配置项目并构建自己的Qsk</li>
+  <li>
+    <p>兼容性：可以和其他开发工具一起使用(Truffle,Foundry,DappTools))</p>
+  </li>
+  <li>扩展性：可以添加各种插件来扩展功能</li>
+  <li>插件：拥有丰富的插件生态，活跃的社区支持</li>
+</ul>
+
+<p><img src="attachment/Hardhat与Remix对比.png" alt="" /></p>
+
+<h2 id="准备工作">准备工作</h2>
+
+<ul>
+  <li>安装NodeJS
+    <ul>
+      <li>Hardhat是基于NodeJS的框架</li>
+    </ul>
+  </li>
+  <li>选择你的代码编辑器
+    <ul>
+      <li>推荐SCode</li>
+      <li>插件安装：Solidity</li>
+    </ul>
+  </li>
+  <li>准备必要的Key和资产
+    <ul>
+      <li>注册BSCScanf的APIKey)用于验证合约代码</li>
+      <li>领取BNB Testnet的测试token</li>
+      <li>注册Coinmarketcapl的APIKey用于测试中显示gasFee(可选)</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="./attachment/image-20241008210009949.png" alt="" /></p>
+
+<h2 id="hardhat安装与设置">Hardhat安装与设置</h2>
+
+<h3 id="新建一个nardhat项目">新建一个nardhat项目</h3>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npx hardhat
+</code></pre></div></div>
+
+<p><img src="./attachment/image-20241008210226679.png" alt="" /></p>
+
+<h3 id="hardhat目录结构">Hardhat目录结构</h3>
+
+<p><img src="./attachment/image-20241008210319720.png" alt="" /></p>
+
+<h3 id="hardhat配置">Hardhat配置</h3>
+
+<p><img src="./attachment/image-20241008210455918.png" alt="" /></p>
+
+<p><img src="./attachment/image-20241008210855082.png" alt="" /></p>
+
+<p><img src="./attachment/image-20241008211058438.png" alt="" /></p>
+
+<h2 id="使用hardhat完成erc2o合约">使用Hardhat完成ERC2O合约</h2>
+
+<h3 id="erc20合约功能设计">ERC20合约功能设计</h3>
+
+<ul>
+  <li>Ownert机制
+    <ul>
+      <li>合约的部署者成为owner</li>
+    </ul>
+  </li>
+  <li>Mint机制
+    <ul>
+      <li>每个地址只能mint一次，mint数量为一个确定的常量</li>
+      <li>如果某个地址的币被销毁，那么可以重新获得一次mint机会</li>
+      <li>合约的owner在部署时获得一定量的初始代币</li>
+    </ul>
+  </li>
+  <li>转移机制
+    <ul>
+      <li>不能转移</li>
+    </ul>
+  </li>
+  <li>Burn机制
+    <ul>
+      <li>只有合约的owner可以burn掉任意地址的代币</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="完成erc20合约">完成ERC20合约</h3>
+
+<p>准备-安装@openzeppelin/,contracts</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install</span> @openzeppelin/contracts 
+</code></pre></div></div>
+
+<p>引入并继承ERC20合约</p>
+
+<pre><code class="language-solidity">import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+contract MyToken is ERC20
+</code></pre>
+
+<p>可以直接使用ERC20的基础功能，不必重复实现</p>
+
+<p><img src="./attachment/image-20241008212011528.png" alt="" /></p>
+
+<p><img src="./attachment/image-20241008212133975.png" alt="" /></p>
+
+<p><img src="./attachment/image-20241008212203652.png" alt="" /></p>
+
+<p><img src="./attachment/image-20241008212226319.png" alt="" /></p>
+
+<h3 id="测试">测试</h3>
+
+<h4 id="设计测试内容">设计测试内容</h4>
+
+<ul>
+  <li>Deployment
+    <ul>
+      <li>Correct owner正确的ownert地址</li>
+      <li>Initial values正确的代币name和symbol</li>
+      <li>Initial mint初始化mint了代币给owneri地址</li>
+    </ul>
+  </li>
+  <li>Mint &amp; Burn
+    <ul>
+      <li>Mint token可以正常mint一次，不可以再次重复mint</li>
+      <li>Burn token只能被owneri调用一次burn,不可以被其他地址调用，不可以多次重复调用</li>
+    </ul>
+  </li>
+  <li>Transfer
+    <ul>
+      <li>Not allowed to transfer不可以转移</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="./attachment/image-20241008212812393.png" alt="" /></p>
+
+<h4 id="书写测试">书写测试</h4>
+
+<p><img src="./attachment/image-20241008212943758.png" alt="" /></p>
+
+<p><img src="./attachment/image-20241008213409161.png" alt="" /></p>
+
+<p><img src="./attachment/image-20241008213730611.png" alt="" /></p>
+
+<p><img src="attachment/image-20241008213819995.png" alt="" /></p>
+
+<p><img src="./attachment/image-20241008214220047.png" alt="" /></p>
+
+<p><img src="./attachment/image-20241008214348576.png" alt="" /></p>
+
+<p><img src="attachment/image-20241008214431884.png" alt="" /></p>
+
+<h2 id="hardhat脚本与任务">Hardhat脚本与任务</h2>
+
+<h3 id="脚本与任务">脚本与任务</h3>
+
+<p>启动本地网络localhost</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npx hardhat node
+</code></pre></div></div>
+
+<p><img src="./attachment/image-20241008214806452.png" alt="" /></p>
+
+<p>用Script部署合约到localhost</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npx hardhat run scripts/deploy.ts--network localhost
+</code></pre></div></div>
+
+<p><img src="./attachment/image-20241008214922422.png" alt="" /></p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npx hardhat deploy--network localhost
+</code></pre></div></div>
+
+<p><img src="./attachment/image-20241008215146178.png" alt="" /></p>
+
+<h3 id="用任务与合约交互">用任务与合约交互</h3>
+
+<p>用Task来完成mint</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npx hardhat mint--network localhost
+</code></pre></div></div>
+
+<p><img src="./attachment/image-20241008215525202.png" alt="" /></p>
+
+<p>用Task来查看余额</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npx hardhat balance--network localhost--address <span class="o">{</span>address<span class="o">}</span>
+</code></pre></div></div>
+
+<p><img src="./attachment/image-20241008215712781.png" alt="" /></p>
+
+<h3 id="部署到bnb-testnet">部署到BNB Testnet</h3>
+
+<p>部署</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npx hardhat deploy--network bnbtest
+</code></pre></div></div>
+
+<p>验证合约</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npx hardhat verify <span class="nt">--network</span> bnbtest--address Oxabc123
+</code></pre></div></div>
+
+<p><img src="./attachment/image-20241008215831441.png" alt="" /></p>
+
+
+        <div class="lesson-footer">
+            <p>最后于  更新</p>
+            
+        </div>
+
+        <div class="pagination">
+            
+            
+        </div>
+    </main>
+</div>
+  </div>
+</main>
+
+<!-- 页脚部分，显示版权信息和当前年份 -->
+<footer>
+  <div class="container">
+    <p>&copy; 2024 OnePolloWeb3学习知识库. All rights reserved.</p>
+  </div>
+</footer>
+</body>
+</html>
